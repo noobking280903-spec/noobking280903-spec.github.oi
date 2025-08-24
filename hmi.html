@@ -1,0 +1,754 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HMI Komisariat Institut Miftahul Huda Subang</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+        body { font-family: 'Inter', sans-serif; }
+        .gradient-bg { background: linear-gradient(135deg, #0dbd39 0%, #02060c 50%, #f7f9fc 100%); }
+        .card-hover { transition: all 0.3s ease; }
+        .card-hover:hover { transform: translateY(-4px); box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1); }
+        .fade-in { animation: fadeIn 0.5s ease-in; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+        .pulse-animation { animation: pulse 2s infinite; }
+        @keyframes pulse { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.05); } }
+    </style>
+</head>
+<body class="bg-gray-50">
+    <!-- Header -->
+    <header id="header" class="gradient-bg text-white shadow-lg hidden">
+        <div class="container mx-auto px-4 py-6">
+            <div class="flex items-center justify-between">
+                <div class="flex items-center space-x-4">
+                    <div class="w-12 h-12 bg-white rounded-full flex items-center justify-center pulse-animation">
+                        <span class="text-blue-600 font-bold text-xl">HMI</span>
+                    </div>
+                    <div>
+                        <h1 class="text-xl font-bold">HMI Komisariat</h1>
+                        <p class="text-blue-100 text-sm">Institut Miftahul Huda Subang</p>
+                    </div>
+                </div>
+                <div class="flex items-center space-x-4">
+                    <div class="hidden md:block text-right">
+                        <p class="text-sm">👋 Selamat datang,</p>
+                        <p class="font-semibold" id="userGreeting">Kader HMI</p>
+                    </div>
+                    <button onclick="logout()" class="bg-white bg-opacity-20 hover:bg-opacity-30 px-4 py-2 rounded-lg text-sm transition-all duration-300 hover:scale-105">
+                        logout
+                    </button>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Navigation -->
+    <nav id="navigation" class="bg-white shadow-md sticky top-0 z-50 hidden">
+        <div class="container mx-auto px-4">
+            <div class="flex justify-center space-x-8">
+                <button onclick="showSection('beranda')" class="nav-btn py-4 px-6 text-blue-600 border-b-2 border-blue-600 font-medium transition-all duration-300">
+                    🏠 Beranda
+                </button>
+                <button onclick="showSection('materi')" class="nav-btn py-4 px-6 text-gray-600 hover:text-blue-600 font-medium transition-all duration-300">
+                    📚 Materi
+                </button>
+                <button onclick="showSection('kalender')" class="nav-btn py-4 px-6 text-gray-600 hover:text-blue-600 font-medium transition-all duration-300">
+                    📅 Kalender
+                </button>
+                <button onclick="showSection('tabungan')" class="nav-btn py-4 px-6 text-gray-600 hover:text-blue-600 font-medium transition-all duration-300">
+                    💰 Tabungan
+                </button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Login Section -->
+    <div id="login" class="section min-h-screen flex items-center justify-center bg-gradient-to-br from-blue-50 via-indigo-50 to-purple-50">
+        <div class="bg-white rounded-3xl shadow-2xl p-8 w-full max-w-md fade-in">
+            <div class="text-center mb-8">
+                <div class="w-24 h-24 bg-gradient-to-br from-blue-600 to-indigo-600 rounded-full flex items-center justify-center mx-auto mb-6 pulse-animation">
+                    <span class="text-white font-bold text-3xl">HMI</span>
+                </div>
+                <h2 class="text-3xl font-bold text-gray-800 mb-2">Selamat Datang</h2>
+                <p class="text-gray-600">Masuk ke Aplikasi HMI Komisariat</p>
+                <p class="text-sm text-blue-600 mt-2">Institut Miftahul Huda Subang</p>
+            </div>
+            
+            <form onsubmit="handleLogin(event)" class="space-y-6">
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-2">👤 Username atau Email</label>
+                    <input type="text" id="username" required class="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-300" placeholder="Masukkan username atau email">
+                </div>
+                
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-2">🔒 Password</label>
+                    <input type="password" id="password" required class="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-300" placeholder="Masukkan password">
+                </div>
+                
+                <div class="flex items-center justify-between">
+                    <label class="flex items-center">
+                        <input type="checkbox" class="rounded border-gray-300 text-blue-600 focus:ring-blue-500">
+                        <span class="ml-2 text-sm text-gray-600">Ingat saya</span>
+                    </label>
+                    <a href="#" class="text-sm text-blue-600 hover:text-blue-800 transition-colors">Lupa password?</a>
+                </div>
+                
+                <button type="submit" class="w-full bg-gradient-to-r from-blue-600 to-indigo-600 text-white py-3 rounded-xl hover:from-blue-700 hover:to-indigo-700 transition-all duration-300 font-medium transform hover:scale-105">
+                    Login
+                </button>
+            </form>
+            
+            <div class="mt-8 text-center">
+                <p class="text-sm text-gray-600">Belum punya akun? <a href="#" class="text-blue-600 hover:text-blue-800 font-medium">Daftar sekarang</a></p>
+                <div class="mt-4 pt-4 border-t border-gray-200">
+                    <p class="text-xs text-gray-500">© 2025 HMI Komisariat IMH Subang</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main Content -->
+    <main id="mainContent" class="container mx-auto px-4 py-8 hidden">
+        <!-- Beranda Section -->
+        <div id="beranda" class="section fade-in">
+            <!-- Welcome Banner -->
+            <div class="gradient-bg rounded-3xl p-8 text-white mb-8 card-hover">
+                <div class="flex flex-col md:flex-row items-center justify-between">
+                    <div class="flex-1">
+                        <h2 class="text-4xl font-bold mb-3">Assalamu'alaikum! 🌟</h2>
+                        <p class="text-blue-100 mb-4 text-lg">Selamat datang di sistem informasi HMI Komisariat Institut Miftahul Huda Subang</p>
+                        <div class="flex flex-wrap items-center gap-4 text-sm">
+                            <span class="bg-white bg-opacity-20 px-3 py-1 rounded-full">📍 Institut Miftahul Huda</span>
+                            <span class="bg-white bg-opacity-20 px-3 py-1 rounded-full">👥 Komisariat Aktif</span>
+                            <span class="bg-white bg-opacity-20 px-3 py-1 rounded-full">🎯 Generasi Rabbani</span>
+                        </div>
+                    </div>
+                    <div class="mt-6 md:mt-0">
+                        <div class="text-8xl pulse-animation">🕌</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Quick Stats -->
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+                <div class="bg-white rounded-2xl p-6 shadow-lg card-hover border-l-4 border-blue-500">
+                    <div class="flex items-center justify-between">
+                        <div>
+                            <p class="text-gray-600 text-sm font-medium">Total Anggota</p>
+                            <p class="text-3xl font-bold text-blue-600 mt-1">-</p>
+                            <p class="text-xs text-gray-500 mt-1">Belum ada data</p>
+                        </div>
+                        <div class="text-4xl">👥</div>
+                    </div>
+                </div>
+                <div class="bg-white rounded-2xl p-6 shadow-lg card-hover border-l-4 border-green-500">
+                    <div class="flex items-center justify-between">
+                        <div>
+                            <p class="text-gray-600 text-sm font-medium">Kegiatan Bulan Ini</p>
+                            <p class="text-3xl font-bold text-green-600 mt-1">-</p>
+                            <p class="text-xs text-gray-500 mt-1">Belum terjadwal</p>
+                        </div>
+                        <div class="text-4xl">📅</div>
+                    </div>
+                </div>
+                <div class="bg-white rounded-2xl p-6 shadow-lg card-hover border-l-4 border-purple-500">
+                    <div class="flex items-center justify-between">
+                        <div>
+                            <p class="text-gray-600 text-sm font-medium">Materi Tersedia</p>
+                            <p class="text-3xl font-bold text-purple-600 mt-1">-</p>
+                            <p class="text-xs text-gray-500 mt-1">Siap ditambahkan</p>
+                        </div>
+                        <div class="text-4xl">📚</div>
+                    </div>
+                </div>
+                <div class="bg-white rounded-2xl p-6 shadow-lg card-hover border-l-4 border-orange-500">
+                    <div class="flex items-center justify-between">
+                        <div>
+                            <p class="text-gray-600 text-sm font-medium">Dana Komisariat</p>
+                            <p class="text-3xl font-bold text-orange-600 mt-1">Rp 0</p>
+                            <p class="text-xs text-gray-500 mt-1">Mulai dari nol</p>
+                        </div>
+                        <div class="text-4xl">💰</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Content Grid -->
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+                <!-- Recent Activities -->
+                <div class="bg-white rounded-2xl p-6 shadow-lg">
+                    <div class="flex items-center justify-between mb-6">
+                        <h3 class="text-xl font-bold flex items-center">
+                            <span class="mr-2">🔥</span> Kegiatan Terbaru
+                        </h3>
+                        <button class="text-blue-600 hover:text-blue-800 text-sm font-medium">Lihat Semua</button>
+                    </div>
+                    <div class="text-center py-12">
+                        <div class="text-6xl mb-4 opacity-50">📝</div>
+                        <h4 class="text-lg font-semibold text-gray-800 mb-2">Belum Ada Kegiatan</h4>
+                        <p class="text-gray-600 mb-6">Mulai dengan menambahkan kegiatan pertama komisariat</p>
+                        <button onclick="showSection('kalender')" class="bg-blue-600 text-white px-6 py-3 rounded-xl hover:bg-blue-700 transition-all duration-300 transform hover:scale-105">
+                            ➕ Tambah Kegiatan
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Announcements -->
+                <div class="bg-white rounded-2xl p-6 shadow-lg">
+                    <div class="flex items-center justify-between mb-6">
+                        <h3 class="text-xl font-bold flex items-center">
+                            <span class="mr-2">📢</span> Pengumuman
+                        </h3>
+                        <button class="text-blue-600 hover:text-blue-800 text-sm font-medium">Kelola</button>
+                    </div>
+                    <div class="text-center py-12">
+                        <div class="text-6xl mb-4 opacity-50">📣</div>
+                        <h4 class="text-lg font-semibold text-gray-800 mb-2">Belum Ada Pengumuman</h4>
+                        <p class="text-gray-600 mb-6">Buat pengumuman penting untuk seluruh anggota</p>
+                        <button class="bg-green-600 text-white px-6 py-3 rounded-xl hover:bg-green-700 transition-all duration-300 transform hover:scale-105">
+                            📝 Buat Pengumuman
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Quick Actions -->
+            <div class="mt-8 bg-gradient-to-r from-indigo-500 to-purple-600 rounded-2xl p-6 text-white">
+                <h3 class="text-xl font-bold mb-4">🚀 Aksi Cepat</h3>
+                <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+                    <button onclick="showSection('materi')" class="bg-white bg-opacity-20 hover:bg-opacity-30 p-4 rounded-xl transition-all duration-300 transform hover:scale-105">
+                        <div class="text-2xl mb-2">📚</div>
+                        <div class="text-sm font-medium">Tambah Materi</div>
+                    </button>
+                    <button onclick="showSection('kalender')" class="bg-white bg-opacity-20 hover:bg-opacity-30 p-4 rounded-xl transition-all duration-300 transform hover:scale-105">
+                        <div class="text-2xl mb-2">📅</div>
+                        <div class="text-sm font-medium">Jadwal Kegiatan</div>
+                    </button>
+                    <button onclick="showSection('tabungan')" class="bg-white bg-opacity-20 hover:bg-opacity-30 p-4 rounded-xl transition-all duration-300 transform hover:scale-105">
+                        <div class="text-2xl mb-2">💰</div>
+                        <div class="text-sm font-medium">Kelola Keuangan</div>
+                    </button>
+                    <button class="bg-white bg-opacity-20 hover:bg-opacity-30 p-4 rounded-xl transition-all duration-300 transform hover:scale-105">
+                        <div class="text-2xl mb-2">👥</div>
+                        <div class="text-sm font-medium">Data Anggota</div>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Materi Section -->
+        <div id="materi" class="section hidden fade-in">
+            <div class="mb-8">
+                <h2 class="text-3xl font-bold mb-4 flex items-center">
+                    <span class="mr-3">📚</span> Materi Pembelajaran
+                </h2>
+                <p class="text-gray-600">Koleksi materi untuk pengembangan diri dan keilmuan anggota HMI</p>
+            </div>
+
+            <!-- Search and Filter -->
+            <div class="bg-white rounded-2xl p-6 shadow-lg mb-8">
+                <div class="flex flex-col md:flex-row gap-4">
+                    <div class="flex-1">
+                        <div class="relative">
+                            <input type="text" placeholder="🔍 Cari materi pembelajaran..." class="w-full px-4 py-3 pl-12 border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-300">
+                            <div class="absolute left-4 top-3.5 text-gray-400">🔍</div>
+                        </div>
+                    </div>
+                    <select class="px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-500 transition-all duration-300">
+                        <option>📂 Semua Kategori</option>
+                        <option>🕌 Keislaman</option>
+                        <option>👑 Kepemimpinan</option>
+                        <option>🏢 Organisasi</option>
+                        <option>🎓 Akademik</option>
+                        <option>🤝 Sosial</option>
+                    </select>
+                    <button class="bg-blue-600 text-white px-6 py-3 rounded-xl hover:bg-blue-700 transition-all duration-300 transform hover:scale-105">
+                        Filter
+                    </button>
+                </div>
+            </div>
+
+            <!-- Empty State -->
+            <div class="text-center py-20">
+                <div class="text-8xl mb-6 opacity-50">📚</div>
+                <h3 class="text-3xl font-bold text-gray-800 mb-4">Belum Ada Materi</h3>
+                <p class="text-gray-600 mb-8 max-w-md mx-auto">Mulai membangun perpustakaan digital dengan menambahkan materi pembelajaran pertama untuk anggota komisariat</p>
+                
+                <!-- Add Material Form -->
+                <div class="bg-white rounded-2xl p-8 shadow-lg max-w-2xl mx-auto">
+                    <h4 class="text-xl font-bold mb-6">➕ Tambah Materi Baru</h4>
+                    <form class="space-y-4">
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-2">📝 Judul Materi</label>
+                                <input type="text" placeholder="Masukkan judul materi" class="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-500">
+                            </div>
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-2">📂 Kategori</label>
+                                <select class="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-500">
+                                    <option>Pilih Kategori</option>
+                                    <option>🕌 Keislaman</option>
+                                    <option>👑 Kepemimpinan</option>
+                                    <option>🏢 Organisasi</option>
+                                    <option>🎓 Akademik</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-2">📄 Deskripsi</label>
+                            <textarea placeholder="Deskripsi singkat tentang materi..." rows="3" class="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-500"></textarea>
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-2">📎 File atau Link</label>
+                            <input type="text" placeholder="Upload file atau masukkan link materi" class="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-500">
+                        </div>
+                        <button type="submit" class="w-full bg-gradient-to-r from-blue-600 to-indigo-600 text-white py-3 rounded-xl hover:from-blue-700 hover:to-indigo-700 transition-all duration-300 transform hover:scale-105">
+                            💾 Simpan Materi
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <!-- Kalender Section -->
+        <div id="kalender" class="section hidden fade-in">
+            <div class="mb-8">
+                <h2 class="text-3xl font-bold mb-4 flex items-center">
+                    <span class="mr-3">📅</span> Kalender Kegiatan
+                </h2>
+                <p class="text-gray-600">Jadwal lengkap kegiatan HMI Komisariat Institut Miftahul Huda Subang</p>
+            </div>
+
+            <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+                <!-- Calendar Widget -->
+                <div class="lg:col-span-2">
+                    <div class="bg-white rounded-2xl shadow-lg p-6">
+                        <div class="flex items-center justify-between mb-6">
+                            <h3 class="text-xl font-bold">📆 Maret 2024</h3>
+                            <div class="flex space-x-2">
+                                <button class="p-2 hover:bg-gray-100 rounded-lg transition-colors">⬅️</button>
+                                <button class="px-4 py-2 bg-blue-600 text-white rounded-lg text-sm">Hari Ini</button>
+                                <button class="p-2 hover:bg-gray-100 rounded-lg transition-colors">➡️</button>
+                            </div>
+                        </div>
+                        
+                        <!-- Calendar Grid -->
+                        <div class="grid grid-cols-7 gap-1 mb-4">
+                            <div class="p-3 text-center text-sm font-medium text-gray-500">Min</div>
+                            <div class="p-3 text-center text-sm font-medium text-gray-500">Sen</div>
+                            <div class="p-3 text-center text-sm font-medium text-gray-500">Sel</div>
+                            <div class="p-3 text-center text-sm font-medium text-gray-500">Rab</div>
+                            <div class="p-3 text-center text-sm font-medium text-gray-500">Kam</div>
+                            <div class="p-3 text-center text-sm font-medium text-gray-500">Jum</div>
+                            <div class="p-3 text-center text-sm font-medium text-gray-500">Sab</div>
+                        </div>
+                        
+                        <div class="grid grid-cols-7 gap-1">
+                            <!-- Calendar dates with empty state -->
+                            <div class="p-3 text-center text-gray-400 hover:bg-gray-50 rounded cursor-pointer">25</div>
+                            <div class="p-3 text-center text-gray-400 hover:bg-gray-50 rounded cursor-pointer">26</div>
+                            <div class="p-3 text-center text-gray-400 hover:bg-gray-50 rounded cursor-pointer">27</div>
+                            <div class="p-3 text-center text-gray-400 hover:bg-gray-50 rounded cursor-pointer">28</div>
+                            <div class="p-3 text-center text-gray-400 hover:bg-gray-50 rounded cursor-pointer">29</div>
+                            <div class="p-3 text-center hover:bg-blue-50 rounded cursor-pointer transition-colors">1</div>
+                            <div class="p-3 text-center hover:bg-blue-50 rounded cursor-pointer transition-colors">2</div>
+                            
+                            <!-- Continue with empty calendar dates -->
+                            <div class="p-3 text-center hover:bg-blue-50 rounded cursor-pointer transition-colors">3</div>
+                            <div class="p-3 text-center hover:bg-blue-50 rounded cursor-pointer transition-colors">4</div>
+                            <div class="p-3 text-center hover:bg-blue-50 rounded cursor-pointer transition-colors">5</div>
+                            <div class="p-3 text-center hover:bg-blue-50 rounded cursor-pointer transition-colors">6</div>
+                            <div class="p-3 text-center hover:bg-blue-50 rounded cursor-pointer transition-colors">7</div>
+                            <div class="p-3 text-center bg-blue-500 text-white rounded cursor-pointer">8</div>
+                            <div class="p-3 text-center hover:bg-blue-50 rounded cursor-pointer transition-colors">9</div>
+                            
+                            <div class="p-3 text-center hover:bg-blue-50 rounded cursor-pointer transition-colors">10</div>
+                            <div class="p-3 text-center hover:bg-blue-50 rounded cursor-pointer transition-colors">11</div>
+                            <div class="p-3 text-center hover:bg-blue-50 rounded cursor-pointer transition-colors">12</div>
+                            <div class="p-3 text-center hover:bg-blue-50 rounded cursor-pointer transition-colors">13</div>
+                            <div class="p-3 text-center hover:bg-blue-50 rounded cursor-pointer transition-colors">14</div>
+                            <div class="p-3 text-center hover:bg-blue-50 rounded cursor-pointer transition-colors">15</div>
+                            <div class="p-3 text-center hover:bg-blue-50 rounded cursor-pointer transition-colors">16</div>
+                            
+                            <div class="p-3 text-center hover:bg-blue-50 rounded cursor-pointer transition-colors">17</div>
+                            <div class="p-3 text-center hover:bg-blue-50 rounded cursor-pointer transition-colors">18</div>
+                            <div class="p-3 text-center hover:bg-blue-50 rounded cursor-pointer transition-colors">19</div>
+                            <div class="p-3 text-center hover:bg-blue-50 rounded cursor-pointer transition-colors">20</div>
+                            <div class="p-3 text-center hover:bg-blue-50 rounded cursor-pointer transition-colors">21</div>
+                            <div class="p-3 text-center hover:bg-blue-50 rounded cursor-pointer transition-colors">22</div>
+                            <div class="p-3 text-center hover:bg-blue-50 rounded cursor-pointer transition-colors">23</div>
+                            
+                            <div class="p-3 text-center hover:bg-blue-50 rounded cursor-pointer transition-colors">24</div>
+                            <div class="p-3 text-center hover:bg-blue-50 rounded cursor-pointer transition-colors">25</div>
+                            <div class="p-3 text-center hover:bg-blue-50 rounded cursor-pointer transition-colors">26</div>
+                            <div class="p-3 text-center hover:bg-blue-50 rounded cursor-pointer transition-colors">27</div>
+                            <div class="p-3 text-center hover:bg-blue-50 rounded cursor-pointer transition-colors">28</div>
+                            <div class="p-3 text-center hover:bg-blue-50 rounded cursor-pointer transition-colors">29</div>
+                            <div class="p-3 text-center hover:bg-blue-50 rounded cursor-pointer transition-colors">30</div>
+                            
+                            <div class="p-3 text-center hover:bg-blue-50 rounded cursor-pointer transition-colors">31</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Event List and Form -->
+                <div class="space-y-6">
+                    <!-- Upcoming Events -->
+                    <div class="bg-white rounded-2xl shadow-lg p-6">
+                        <h3 class="text-xl font-bold mb-4 flex items-center">
+                            <span class="mr-2">⏰</span> Kegiatan Mendatang
+                        </h3>
+                        <div class="text-center py-8">
+                            <div class="text-4xl mb-4 opacity-50">📅</div>
+                            <p class="text-gray-600 mb-4">Belum ada kegiatan terjadwal</p>
+                            <p class="text-sm text-gray-500">Tambahkan kegiatan pertama komisariat</p>
+                        </div>
+                    </div>
+
+                    <!-- Add Event Form -->
+                    <div class="bg-white rounded-2xl shadow-lg p-6">
+                        <h3 class="text-xl font-bold mb-4 flex items-center">
+                            <span class="mr-2">➕</span> Tambah Kegiatan
+                        </h3>
+                        <form class="space-y-4">
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-2">📝 Nama Kegiatan</label>
+                                <input type="text" placeholder="Contoh: Kajian Rutin Mingguan" class="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-500">
+                            </div>
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-2">📅 Tanggal</label>
+                                <input type="date" class="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-500">
+                            </div>
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-2">⏰ Waktu</label>
+                                <input type="time" class="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-500">
+                            </div>
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-2">📍 Tempat</label>
+                                <input type="text" placeholder="Lokasi kegiatan" class="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-500">
+                            </div>
+                            <button type="submit" class="w-full bg-gradient-to-r from-green-600 to-emerald-600 text-white py-3 rounded-xl hover:from-green-700 hover:to-emerald-700 transition-all duration-300 transform hover:scale-105">
+                                💾 Simpan Kegiatan
+                            </button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Tabungan Section -->
+        <div id="tabungan" class="section hidden fade-in">
+            <div class="mb-8">
+                <h2 class="text-3xl font-bold mb-4 flex items-center">
+                    <span class="mr-3">💰</span> Manajemen Keuangan
+                </h2>
+                <p class="text-gray-600">Kelola keuangan dan tabungan komisariat dengan transparan dan akuntabel</p>
+            </div>
+
+            <!-- Summary Cards -->
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+                <div class="bg-gradient-to-br from-green-500 to-emerald-600 rounded-2xl p-6 text-white card-hover">
+                    <div class="flex items-center justify-between">
+                        <div>
+                            <p class="text-green-100 text-sm font-medium">💳 Total Saldo</p>
+                            <p class="text-4xl font-bold mt-2">Rp 0</p>
+                            <p class="text-green-100 text-sm mt-2">Mulai dari awal</p>
+                        </div>
+                        <div class="text-5xl opacity-80">💳</div>
+                    </div>
+                </div>
+
+                <div class="bg-gradient-to-br from-blue-500 to-indigo-600 rounded-2xl p-6 text-white card-hover">
+                    <div class="flex items-center justify-between">
+                        <div>
+                            <p class="text-blue-100 text-sm font-medium">📈 Pemasukan</p>
+                            <p class="text-4xl font-bold mt-2">Rp 0</p>
+                            <p class="text-blue-100 text-sm mt-2">Bulan ini</p>
+                        </div>
+                        <div class="text-5xl opacity-80">📈</div>
+                    </div>
+                </div>
+
+                <div class="bg-gradient-to-br from-orange-500 to-red-600 rounded-2xl p-6 text-white card-hover">
+                    <div class="flex items-center justify-between">
+                        <div>
+                            <p class="text-orange-100 text-sm font-medium">📉 Pengeluaran</p>
+                            <p class="text-4xl font-bold mt-2">Rp 0</p>
+                            <p class="text-orange-100 text-sm mt-2">Bulan ini</p>
+                        </div>
+                        <div class="text-5xl opacity-80">📉</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+                <!-- Transaction Form -->
+                <div class="bg-white rounded-2xl shadow-lg p-6">
+                    <h3 class="text-xl font-bold mb-6 flex items-center">
+                        <span class="mr-2">➕</span> Tambah Transaksi
+                    </h3>
+                    <form class="space-y-4">
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-2">💱 Jenis Transaksi</label>
+                            <select class="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-500">
+                                <option>📈 Pemasukan</option>
+                                <option>📉 Pengeluaran</option>
+                            </select>
+                        </div>
+                        
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-2">📂 Kategori</label>
+                            <select class="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-500">
+                                <option>💰 Iuran Anggota</option>
+                                <option>🎁 Donasi</option>
+                                <option>🎉 Kegiatan</option>
+                                <option>🏢 Operasional</option>
+                                <option>📝 Lainnya</option>
+                            </select>
+                        </div>
+                        
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-2">💵 Jumlah (Rp)</label>
+                            <input type="number" placeholder="0" class="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-500">
+                        </div>
+                        
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-2">📝 Keterangan</label>
+                            <textarea placeholder="Deskripsi transaksi..." rows="3" class="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-500"></textarea>
+                        </div>
+                        
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-2">📅 Tanggal</label>
+                            <input type="date" class="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-500">
+                        </div>
+                        
+                        <button type="submit" class="w-full bg-gradient-to-r from-blue-600 to-indigo-600 text-white py-3 rounded-xl hover:from-blue-700 hover:to-indigo-700 transition-all duration-300 transform hover:scale-105">
+                            💾 Simpan Transaksi
+                        </button>
+                    </form>
+                </div>
+
+                <!-- Recent Transactions -->
+                <div class="bg-white rounded-2xl shadow-lg p-6">
+                    <div class="flex items-center justify-between mb-6">
+                        <h3 class="text-xl font-bold flex items-center">
+                            <span class="mr-2">📊</span> Riwayat Transaksi
+                        </h3>
+                        <button class="text-blue-600 hover:text-blue-800 text-sm font-medium">Lihat Semua</button>
+                    </div>
+                    
+                    <div class="text-center py-12">
+                        <div class="text-6xl mb-4 opacity-50">💸</div>
+                        <h4 class="text-lg font-semibold text-gray-800 mb-2">Belum Ada Transaksi</h4>
+                        <p class="text-gray-600 mb-6">Mulai dengan menambahkan transaksi pertama komisariat</p>
+                        <div class="bg-gray-50 rounded-xl p-4">
+                            <p class="text-sm text-gray-600 mb-2">💡 Tips:</p>
+                            <ul class="text-xs text-gray-500 space-y-1 text-left">
+                                <li>• Catat semua pemasukan dari iuran anggota</li>
+                                <li>• Dokumentasikan setiap pengeluaran kegiatan</li>
+                                <li>• Buat laporan keuangan bulanan</li>
+                                <li>• Simpan bukti transaksi dengan rapi</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Financial Summary -->
+            <div class="mt-8 bg-gradient-to-r from-purple-500 to-indigo-600 rounded-2xl p-6 text-white">
+                <h3 class="text-xl font-bold mb-4 flex items-center">
+                    <span class="mr-2">📈</span> Ringkasan Keuangan
+                </h3>
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                    <div class="bg-white bg-opacity-20 rounded-xl p-4">
+                        <div class="text-2xl mb-2">💰</div>
+                        <div class="text-sm opacity-90">Saldo Awal</div>
+                        <div class="text-xl font-bold">Rp 0</div>
+                    </div>
+                    <div class="bg-white bg-opacity-20 rounded-xl p-4">
+                        <div class="text-2xl mb-2">📊</div>
+                        <div class="text-sm opacity-90">Total Transaksi</div>
+                        <div class="text-xl font-bold">0 Transaksi</div>
+                    </div>
+                    <div class="bg-white bg-opacity-20 rounded-xl p-4">
+                        <div class="text-2xl mb-2">🎯</div>
+                        <div class="text-sm opacity-90">Target Bulan Ini</div>
+                        <div class="text-xl font-bold">Belum Ditetapkan</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer id="footer" class="bg-gray-900 text-white py-12 mt-16 hidden">
+        <div class="container mx-auto px-4">
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
+                <div class="col-span-2">
+                    <div class="flex items-center space-x-3 mb-4">
+                        <div class="w-12 h-12 bg-blue-600 rounded-full flex items-center justify-center">
+                            <span class="text-white font-bold text-xl">HMI</span>
+                        </div>
+                        <div>
+                            <h3 class="text-xl font-bold">HMI Subang</h3>
+                            <p class="text-gray-400 text-sm">Komisariat Institut Miftahul Huda</p>
+                        </div>
+                    </div>
+                    <p class="text-gray-300 text-sm mb-4">Himpunan Mahasiswa Islam Komisariat Institut Miftahul Huda Cabang Subang - Membangun generasi yang berilmu, beriman, dan berakhlak mulia.</p>
+                    <div class="flex space-x-4">
+                        <a href="#" class="text-gray-400 hover:text-white transition-colors">📘 Facebook</a>
+                        <a href="#" class="text-gray-400 hover:text-white transition-colors">📷 Instagram</a>
+                        <a href="#" class="text-gray-400 hover:text-white transition-colors">🐦 Twitter</a>
+                    </div>
+                </div>
+                <div>
+                    <h4 class="font-bold mb-4">📞 Kontak</h4>
+                    <div class="space-y-2 text-sm text-gray-300">
+                        <p>📍 Institut Miftahul Huda</p>
+                        <p>🏢 Jl. Raya Subang, Subang</p>
+                        <p>📞 +62 812-3456-7890</p>
+                        <p>✉️ hmi.subang@gmail.com</p>
+                    </div>
+                </div>
+                <div>
+                    <h4 class="font-bold mb-4">🔗 Link Cepat</h4>
+                    <div class="space-y-2 text-sm text-gray-300">
+                        <a href="#" class="block hover:text-white transition-colors">🏠 Beranda</a>
+                        <a href="#" class="block hover:text-white transition-colors">📚 Materi</a>
+                        <a href="#" class="block hover:text-white transition-colors">📅 Kalender</a>
+                        <a href="#" class="block hover:text-white transition-colors">💰 Keuangan</a>
+                    </div>
+                </div>
+            </div>
+            <div class="border-t border-gray-700 mt-8 pt-8 text-center text-sm text-gray-400">
+                <p>&copy; 2024 HMI Komisariat Institut Miftahul Huda Subang. Semua hak dilindungi undang-undang.</p>
+                <p class="mt-2">Dibuat dengan ❤️ untuk kemajuan dakwah dan pendidikan</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Login functionality
+        function handleLogin(event) {
+            event.preventDefault();
+            
+            const username = document.getElementById('username').value;
+            const password = document.getElementById('password').value;
+            
+            if (username && password) {
+                // Hide login section with animation
+                document.getElementById('login').style.opacity = '0';
+                setTimeout(() => {
+                    document.getElementById('login').classList.add('hidden');
+                    
+                    // Show main application
+                    document.getElementById('header').classList.remove('hidden');
+                    document.getElementById('navigation').classList.remove('hidden');
+                    document.getElementById('mainContent').classList.remove('hidden');
+                    document.getElementById('footer').classList.remove('hidden');
+                    
+                    // Update greeting
+                    document.getElementById('userGreeting').textContent = username;
+                    
+                    // Show beranda by default
+                    showSection('beranda');
+                }, 300);
+            } else {
+                alert('⚠️ Mohon isi username dan password dengan lengkap!');
+            }
+        }
+        
+        // Logout functionality
+        function logout() {
+            if (confirm('🤔 Apakah Anda yakin ingin keluar dari aplikasi?')) {
+                // Hide main application
+                document.getElementById('header').classList.add('hidden');
+                document.getElementById('navigation').classList.add('hidden');
+                document.getElementById('mainContent').classList.add('hidden');
+                document.getElementById('footer').classList.add('hidden');
+                
+                // Show login section
+                document.getElementById('login').classList.remove('hidden');
+                document.getElementById('login').style.opacity = '1';
+                
+                // Clear form
+                document.getElementById('username').value = '';
+                document.getElementById('password').value = '';
+            }
+        }
+
+        // Section navigation
+        function showSection(sectionName) {
+            // Hide all sections
+            const sections = document.querySelectorAll('.section');
+            sections.forEach(section => {
+                section.classList.add('hidden');
+            });
+            
+            // Show selected section with animation
+            const targetSection = document.getElementById(sectionName);
+            targetSection.classList.remove('hidden');
+            targetSection.classList.add('fade-in');
+            
+            // Update navigation buttons
+            const navButtons = document.querySelectorAll('.nav-btn');
+            navButtons.forEach(btn => {
+                btn.classList.remove('text-blue-600', 'border-b-2', 'border-blue-600');
+                btn.classList.add('text-gray-600');
+            });
+            
+            // Highlight active button
+            event.target.classList.remove('text-gray-600');
+            event.target.classList.add('text-blue-600', 'border-b-2', 'border-blue-600');
+        }
+
+        // Form submissions (placeholder functionality)
+        document.addEventListener('DOMContentLoaded', function() {
+            // Material form submission
+            const materialForms = document.querySelectorAll('form');
+            materialForms.forEach(form => {
+                form.addEventListener('submit', function(e) {
+                    e.preventDefault();
+                    alert('✅ Data berhasil disimpan! Fitur ini akan dikembangkan lebih lanjut.');
+                });
+            });
+            
+            // Initialize tooltips and interactions
+            initializeInteractions();
+        });
+
+        function initializeInteractions() {
+            // Add hover effects to cards
+            const cards = document.querySelectorAll('.card-hover');
+            cards.forEach(card => {
+                card.addEventListener('mouseenter', function() {
+                    this.style.transform = 'translateY(-8px)';
+                });
+                card.addEventListener('mouseleave', function() {
+                    this.style.transform = 'translateY(0)';
+                });
+            });
+        }
+
+        // Welcome message based on time
+        function updateGreeting() {
+            const hour = new Date().getHours();
+            let greeting = '';
+            
+            if (hour < 12) {
+                greeting = 'Selamat Pagi';
+            } else if (hour < 15) {
+                greeting = 'Selamat Siang';
+            } else if (hour < 18) {
+                greeting = 'Selamat Sore';
+            } else {
+                greeting = 'Selamat Malam';
+            }
+            
+            return greeting;
+        }
+    </script>
+<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9743e9d294f8ce39',t:'MTc1NjA0OTY2Mi4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+</html>
